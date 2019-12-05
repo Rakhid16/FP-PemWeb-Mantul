@@ -1,8 +1,64 @@
+<!DOCTYPE html>
 <html>
-   <h1>
-      Ini adalah laman utama
-   </h1>
-   <a href="{{ url_for('login') }}">Masuk</a><br>
-   <a href="{{ url_for('register') }}">Daftar</a><br>
-   <a href="{{ url_for('about') }}">Tentang Kami</a>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/h7Btbz8/favicon.png"/>
+    <link rel="stylesheet" href="style-utama.css" />
+    <title>NeuraHealth</title>
+  </head>
+<body>
+
+  <!-- HERO IMAGE -->
+  <div class="container">
+    <div class="hero-image">  
+      <div class="hero-text">
+        <h1 style="font-size:50px">Selamat Datang <span></span></h1>
+        <p>Ingin tahu lebih lanjut tentang NeuraHealth?</p><br>
+        <button><a onclick="window.open('#about', '_self')">Lihat di sini</a></button>
+      </div>   
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <header>
+      <img src="https://i.ibb.co/h7Btbz8/favicon.png" height=40 width=40>
+        <ul>
+          <li><a href="#about">Tentang Kami</a></li>
+          <li><a href="login.html">Masuk</a></li>
+          <li><a href="register.html">Daftar</a></li>
+        </ul>
+    </header>
+
+  <!-- ABOUT ME -->
+  <div class="about-me" id="about">
+    <div class="about-me-img">
+      <img src="https://i.ibb.co/7bJHf31/kami.png" alt="Avatar"> 
+    </div> 
+    <div class="about-me-txt">
+      <h1>Tentang Kami</h1>
+      <p>NeuraHealth merupakan aplikasi diagnosa penyakit pasien.<br>
+        Aplikasi ini dapat membantu dokter untuk menentukan penyakit berdasarkan masukan gejala dan gambar.<br>
+      </p>
+    </div>
+  </div>
+
+  <!-- Ulasan Penyakit -->
+  <div id="Ulasan"></div>
+  <hr style="width:0%;">
+  <hr style="width:0%;">
+  <hr style="width:0%;">
+  <div class="sub-heading">
+    <center> Ulasan Penyakit </center>
+    <hr style="width:25%; color: whitesmoke">
+  </div>
+  <div class="soc-projects">
+  </div>
+  
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-credit">
+        <a style="text-align: center;">Copyright @2019 by NeuraHealth.Team</a>
+    <!--<div class="clear"></div>-->
+  </div>
+</div>
+</body>
 </html>
