@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/h7Btbz8/favicon.png"/>
-    <link rel="stylesheet" href="style-utama.css" />
-    <title>NeuraHealth</title>
-
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/QDd01hK/favicon.png"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='style-utama.css')}}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <title>Neurahealt | Sistem Diagnosa Instan</title>
   </head>
 <body>
 
@@ -13,58 +13,136 @@
   <div class="container">
     <div class="hero-image">  
       <div class="hero-text">
-        <h1 style="font-size:50px">Selamat Datang <span></span></h1>
-        <p>Ingin tahu lebih lanjut tentang NeuraHealth?</p><br>
-        <button><a onclick="window.open('#about', '_self')">Lihat di sini</a></button>
+        <h1 style="font-size:50px">Hello <span></span></h1>
+        <p>Ketika kecerdasan buatan cukup cerdas untuk mendiagnosa penyakit</p><br>
+        <button><a onclick="window.open('#about', '_self')"><i class="fas fa-hand-point-down"></i> Let's see</a></button>
       </div>   
     </div>
 
     <!-- NAVIGATION BAR -->
     <header>
-      <img src="https://i.ibb.co/h7Btbz8/favicon.png" height=40 width=40>
+      <img src="https://i.ibb.co/QDd01hK/favicon.png" height=40 width=40>
         <ul>
-          <li><a href="#about">Tentang Kami</a></li>
-          <li><a href="login.html">Masuk</a></li>
-          <li><a href="register.html">Daftar</a></li>
+          <li><a href="#about">Tentang kami</a></li>
+          <li><a href="#socpro">Dibuat untuk</a></li>
+          <li><a href="#journ">Keunggulan</a></li>
+          <li><a href="#expert">Bergabung</a></li>
         </ul>
     </header>
-
-  <!-- Registrasi -->
-  <div class="registrasi" id="regis">
-      <hr style="width:0%;">
-      <hr style="width:0%;">
-      <hr style="width:0%;">
-      <div class="regis-box"> 
-        <div class="regis-txt">
-          <h1>Registrasi</h1>
-          <hr style="width:50%;"> 
-          <p>Sudahkah Anda registrasi? Klik <b href="#masuk">Daftar</b> untuk registrasi.<br>
-              Atau Anda telah memiliki akun? Klik <b href="#masuk">Masuk</b> untuk login.<br>
-          </p>
-          <button type="button">Masuk</button>
-          <button type="button">Daftar</button>
-        </div>
-      </div>
-    </div>
 
   <!-- ABOUT ME -->
   <div class="about-me" id="about">
     <div class="about-me-img">
-      <img src="kami1.png" alt="Avatar"> 
+      <img src="{{url_for('static', filename='img/logo.png')}}" alt="Avatar"> 
     </div> 
     <div class="about-me-txt">
-      <h1>Tentang Kami</h1>
-      <p>NeuraHealth merupakan aplikasi diagnosa penyakit pasien.<br>
-        Aplikasi ini dapat membantu dokter untuk menentukan penyakit berdasarkan masukan gejala dan gambar.<br>
-      </p>
+      <h1>About me</h1>
+      <p>Hi! My name is Radical Rakhman Wahid.<br>
+        Was born in Jombang, Muharram 30<sup>th</sup> 1420.<br>
+        I'm a undergraduate student in UPN "VETERAN" Jawa Timur.<br>
+        Interested in Data Science, Software Engineering and Islamic Education as well.<br> 
+        Would really love to explore the combination of research into Artificial Intelligence.</p>
     </div>
   </div>
+
+  <!-- MY SOCIAL PROJECTS -->
+  <div id="socpro"></div>
+  <hr style="width:0%; visibility:hidden">
+  <hr style="width:0%; visibility:hidden">
+  <hr style="width:0%; visibility:hidden">
+  <div class="sub-heading">
+    <center><br>Kami ada untuk :</center>
+    <hr style="width:17.5%; color: whitesmoke">
+  </div>
+  <div class="soc-projects">
+    <div>
+        <p>Pasien</p>
+      <img src="{{url_for('static', filename='img/pasien.png')}}" width="250" height="300">
+      <p>Pasien memiliki hak untuk<br>mengetahui hasil pemeriksaannya<br>sesegera mungkin.</p>
+    </div>
+    <div>
+        <p>Dokter</p>
+      <img src="{{url_for('static', filename='img/doctor.png')}}" width="300" height="300">
+      <p>Dengan adanya Neurahealth<br>dokter dapat melakukan doagnosa<br>penyakit dengan cepat!</p>
+    </div>
+  </div>
+  
+  <!-- MY JOURNEY -->
+  <div id="journ"></div>
+  <hr style="height:0%; width:0%;visibility:hidden">
+  <hr style="visibility:hidden">
+  <hr style="visibility:hidden">
+  <div class="journey"><center>
+    <h1 style="background-color: whitesmoke; margin-top:0; margin-bottom: 0;"><br>Kenapa memilih Neurahealth?</h1>
+    <br>
+    <hr style="width:40%; color: whitesmoke; margin-top: 0; margin-bottom: 0 ">
+  </center>
+    <!-- JOMBANG -->
+    <div class="journey-jmbg">
+      <div class="journey-jmbg-text">
+        <h1>Mudah</i></h1>
+        <p>Neurahealth merupakan website<br>
+        berbasis <i>artificial Intelligence<br>
+      as services</i> yang menerapkan<br>algoritma <i>deep learning.</i></p>
+      </div>
+      <div class="journey-jmbg-img">
+        <img src="{{url_for('static', filename='img/neural.jpg')}}" width="350">
+      </div>
+    </div>
+
+    <!-- SURABAYA -->
+    <div class="journey-sby">
+      <div class="journey-sby-img">
+        <img src="{{url_for('static', filename='img/fast.png')}}"  width="350">
+      </div>
+      <div class="journey-sby-text">
+        <h1>Cepat</i></h1>
+        <p>Dengan layanan digital yang<br>
+          ada di Neurahealth, proses<br>
+          diagnosa tidak membutuhkan<br>
+      waktu berhari-hari!</p>
+      </div>
+    </div>
+  
+    <!-- ? -->
+    <div class="journey-idk">
+      <div class="journey-idk-text">
+          <h1>Akurat</i></h1>
+          <p>Dengan memanfaatkan kecerdasan buatan<br>
+          yang telah dilatih pada ratusan sampai ribuan<br>
+        sampel. Hasil diagnosa pada Neurahealth<br>
+        dapat akurat.<br></p>
+      </div>
+      <div class="journey-idk-img" >
+        <img src="{{url_for('static', filename='img/target.png')}}" width="300">
+      </div>
+    </div>
+  </div>
+
+  <!-- MY EXPERTISE -->
+  <div class="expert" id="expert">
+    <div>
+        <img src="{{url_for('static', filename='img/undraw_detailed_analysis_xn7y.svg')}}" width="300" >
+      <p>Bergabunglah dengan kami!<br>
+      Manfaatkan layanan Diagnosa penyakit<br>
+    instan melalui Neurahealth!</p>
+    <center>
+        <button onclick="location.href='{{ url_for('login')}}'" type="button" class="butn betn-blue "><i class="fas fa-door-open"></i> Masuk</button>
+      <button onclick="location.href='{{ url_for('register')}}'" type="button" class="butn betn-blue "><i class="fas fa-paste"></i> Daftar</button></center>
+    </div>
+  </div> 
   
   <!-- FOOTER -->
   <div class="footer">
     <div class="footer-credit">
-        <a style="text-align: center;">Copyright @2019 by NeuraHealth.Team</a>
-    <!--<div class="clear"></div>-->
+        <b>Copyright @2019 by NeuraHealth.Team</b>
+    </div>
+    <div class="footer-socmed">
+      <a href="https://github.com/rakhid16" target="blank"><img src="{{url_for('static', filename='img/github.png')}}" width="25" height="25"/></a>&nbsp;
+      <a href="https://t.me/rakhmanWahid" target="blank"><img src="{{url_for('static', filename='img/tele.png')}}" width="25" height="25"/></a>&nbsp;
+      <a href="https://fb.com/radical.rakhman" target="blank"><img src="{{url_for('static', filename='img/fb.png')}}" width="25" height="25"/></a>&nbsp;
+      <a href="https://linkedin.com/in/rakhid16" target="blank"><img src="{{url_for('static', filename='img/in.png')}}" width="25" height="25" /></a>
+    </div> <div class="clear"></div>
   </div>
 </div>
 </body>

@@ -11,7 +11,7 @@ body.coba{
 	background-size: fixed;
 	background-repeat: no-repeat;
 	background-position: top center;
-	background-image: url("https://dashboard.qiscus.com/images/dashboard/image-wave.svg");
+	background-image: url("img/background.svg");
 }
 
 /* BARIS 18-96 : UNTUK KOTAK LOGIN & REGISTER */
@@ -193,5 +193,4 @@ body.loggedin{
 .card{
 	color: green;
 	box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.9);
-
  }

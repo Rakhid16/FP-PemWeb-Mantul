@@ -4,16 +4,16 @@
 {% block content %}
 <h2> Pilihan Penyakit</h2>
 <div class = "container">
+
+  <!-- TIGA PENYAKIT ATAS -->
   <div class = "row justify-content-center">
 
       <div class = "col-md-4">
         <div class="card bg-white text-center">
           <div class="card-body">
-            <img src="https://i.ibb.co/B2252bz/nyamuk.png" style=" width: 200px; height: 200px;">
-            <br>
-            <br>
+            <img src="https://i.ibb.co/B2252bz/nyamuk.png" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Malaria</h5>
-            <a href="{{ url_for('malaria_home') }}" class="btn btn-success">Periksa Sekarang </a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
           </div>
         </div>
       </div>
@@ -21,11 +21,9 @@
       <div class = "col-md-4">
         <div class="card bg-white text-center">
           <div class="card-body">
-            <img src="https://i.ibb.co/k3q9Zvv/jantung3.png" style=" width: 200px; height: 200px;">
-            <br>
-            <br>
+            <img src="https://i.ibb.co/k3q9Zvv/jantung3.png" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Jantung</h5>
-            <a href="{{ url_for('jantung_home') }}" class="btn btn-success">Periksa Sekarang </a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
           </div>
         </div>
       </div>
@@ -33,29 +31,24 @@
       <div class = "col-md-4">
         <div class="card bg-white text-center">
           <div class="card-body">
-            <img src="https://i.ibb.co/Yd8k8P7/tumor.jpg" style=" width: 200px; height: 200px;">
-            <br>
-            <br>
+            <img src="https://i.ibb.co/Yd8k8P7/tumor.jpg" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Tumor Otak</h5>
-            <a href="{{ url_for('tumor_home') }}" class="btn btn-success">Periksa Sekarang </a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
           </div>
         </div>
       </div>  
 
-    </div>
-    
-    <br>
+    </div><br>
 
+    <!-- DUA PENYAKIT BAWAH -->
     <div class = "row justify-content-center">
 
       <div class = "col-md-4">
         <div class="card bg-white text-center">
           <div class="card-body">
-            <img src="https://i.ibb.co/Mh9wTQV/diabetes.png" style=" width: 200px; height: 200px;">
-            <br>
-            <br>
+            <img src="https://i.ibb.co/Mh9wTQV/diabetes.png" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Diabetes</h5>
-            <a href="{{ url_for('diabetes_home') }}" class="btn btn-success">Periksa Sekarang </a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
           </div>
         </div>
       </div>
@@ -63,15 +56,38 @@
       <div class = "col-md-4">
         <div class="card bg-white text-center">
           <div class="card-body">
-            <img src="https://i.ibb.co/pr5bY8X/parkinson-png.png" style=" width: 200px; height: 200px;">
-            <br>
-            <br>
+            <img src="https://i.ibb.co/pr5bY8X/parkinson-png.png" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Parkinson</h5>
-            <a href="{{ url_for('parkinson_home') }}" class="btn btn-success">Periksa Sekarang </a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
           </div>
         </div>
       </div>
     
   </div>
-  </div>
+
+  <!-- DIALOG BOX -->
+  <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+         <div class="modal-content">   
+            <div class="modal-body">
+               <form>
+                  <div class="form-group"><center>
+                    <form action="" method="post">
+                    <label for="exampleInputPassword1">Masukkan Kode untuk Lanjut</label><br></center>
+                    <input type="integer" class="form-control" placeholder="Kode Unik" name="msk">
+                    <input type="submit">
+                    </form>
+                  </div>
+               </form>
+            </div>
+
+            <div class="modal-footer">
+               <button type="button" class="btn btn-success" data-dismiss="modal">Masuk Portal</button>
+               <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>
 {% endblock %}

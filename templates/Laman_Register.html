@@ -4,6 +4,7 @@
 		<title>Daftar</title>
 		<link rel="shortcut icon" type="image/png" href="https://i.ibb.co/QDd01hK/favicon.png"/>
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+		<link rel="stylesheet" href="{{url_for('static', filename='style-utama.css')}}" />
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 	</head>
 	
@@ -38,5 +39,6 @@
 			</form>
 	
 		</div>
+		<button onclick="location.href='{{ url_for('main_page')}}'" type="button" class="betn betn-blue "><i class="fas fa-home"></i> Home</button>
 	</body>
 </html>

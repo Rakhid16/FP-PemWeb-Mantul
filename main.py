@@ -127,12 +127,23 @@ def profile():
     return redirect(url_for('login'))
 
 # RUTE UNTUK LAMAN DAFTAR PENYAKIT - HARUS LOGIN DULU
-@app.route('/neurahealth/diseases')
+@app.route('/neurahealth/diseases', methods=['GET', 'POST'])
 def diseases():
     # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
+
+        if request.method == 'POST':
+            return redirect(url_for('malaria_home'))
+        elif request.method == 'POST' and request.form['msk'] == 2:
+            return redirect(url_for('jantung_home'))
+        elif request.method == 'POST' and request.form['msk'] == 3:
+            return redirect(url_for('tumor_home'))
+        elif request.method == 'POST' and request.form['msk'] == 4:
+            return redirect(url_for('diabetes_home'))
+        elif request.method == 'POST' and request.form['msk'] == 5:
+            return redirect(url_for('parkinson_home'))
+
         return render_template('Pilihan_Penyakit.html', doctor_name=session['doctor_name'])
-    
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
