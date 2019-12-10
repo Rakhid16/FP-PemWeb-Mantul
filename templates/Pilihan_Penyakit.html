@@ -13,7 +13,7 @@
           <div class="card-body">
             <img src="https://i.ibb.co/B2252bz/nyamuk.png" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Malaria</h5>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
+            <button onclick="location.href='{{ url_for('malaria_home')}}'" type="button" class="btn btn-success" data-toggle="modal">Periksa Sekarang</button>
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
           <div class="card-body">
             <img src="https://i.ibb.co/k3q9Zvv/jantung3.png" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Jantung</h5>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
+            <button onclick="location.href='{{ url_for('jantung_home')}}'" type="button" class="btn btn-success" data-toggle="modal">Periksa Sekarang</button>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
           <div class="card-body">
             <img src="https://i.ibb.co/Yd8k8P7/tumor.jpg" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Tumor Otak</h5>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" onclick="location.href='{{ url_for('tumor_home')}}'">Periksa Sekarang</button>
           </div>
         </div>
       </div>  
@@ -48,7 +48,7 @@
           <div class="card-body">
             <img src="https://i.ibb.co/Mh9wTQV/diabetes.png" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Diabetes</h5>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" onclick="location.href='{{ url_for('diabetes_home')}}'">Periksa Sekarang</button>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@
           <div class="card-body">
             <img src="https://i.ibb.co/pr5bY8X/parkinson-png.png" style=" width: 200px; height: 200px;"><br><br>
             <h5 class="card-title">Parkinson</h5>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Periksa Sekarang</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" onclick="location.href='{{ url_for('parkinson_home')}}'">Periksa Sekarang</button>
           </div>
         </div>
       </div>
@@ -70,24 +70,86 @@
       <div class="modal-dialog">
          <div class="modal-content">   
             <div class="modal-body">
-               <form>
+              <form method="POST">
                   <div class="form-group"><center>
-                    <form action="" method="post">
                     <label for="exampleInputPassword1">Masukkan Kode untuk Lanjut</label><br></center>
-                    <input type="integer" class="form-control" placeholder="Kode Unik" name="msk">
-                    <input type="submit">
-                    </form>
+                    <input class="form-control" placeholder="Kode Unik" name="msk" type="text"><br>
+                    <center><input type="submit" class="btn btn-success" value="Masuk Portal">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button></center>
                   </div>
-               </form>
-            </div>
-
-            <div class="modal-footer">
-               <button type="button" class="btn btn-success" data-dismiss="modal">Masuk Portal</button>
-               <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+              </form>
             </div>
          </div>
       </div>
    </div>
+
+   <div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+       <div class="modal-content">   
+          <div class="modal-body">
+            <form method="POST">
+                <div class="form-group"><center>
+                  <label for="exampleInputPassword1">Masukkan Kode untuk Lanjut</label><br></center>
+                  <input class="form-control" placeholder="Kode Unik" name="msk" type="text"><br>
+                  <center><input type="submit" class="btn btn-success" value="Masuk Portal">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup1</button></center>
+                </div>
+            </form>
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <div id="myModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     <div class="modal-content">   
+        <div class="modal-body">
+          <form method="POST">
+              <div class="form-group"><center>
+                <label for="exampleInputPassword1">Masukkan Kode untuk Lanjut</label><br></center>
+                <input class="form-control" placeholder="Kode Unik" name="msk" type="text"><br>
+                <center><input type="submit" class="btn btn-success" value="Masuk Portal">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup2</button></center>
+              </div>
+          </form>
+        </div>
+     </div>
+  </div>
+</div>
+
+<div id="myModal3" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     <div class="modal-content">   
+        <div class="modal-body">
+          <form method="POST">
+              <div class="form-group"><center>
+                <label for="exampleInputPassword1">Masukkan Kode untuk Lanjut</label><br></center>
+                <input class="form-control" placeholder="Kode Unik" name="msk" type="text"><br>
+                <center><input type="submit" class="btn btn-success" value="Masuk Portal">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup3</button></center>
+              </div>
+          </form>
+        </div>
+     </div>
+  </div>
+</div>
+
+<div id="myModal4" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     <div class="modal-content">   
+        <div class="modal-body">
+          <form method="POST">
+              <div class="form-group"><center>
+                <label for="exampleInputPassword1">Masukkan Kode untuk Lanjut</label><br></center>
+                <input class="form-control" placeholder="Kode Unik" name="msk" type="text"><br>
+                <center><input type="submit" class="btn btn-success" value="Masuk Portal">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup4</button></center>
+              </div>
+          </form>
+        </div>
+     </div>
+  </div>
+</div>
 
 </div>
 {% endblock %}

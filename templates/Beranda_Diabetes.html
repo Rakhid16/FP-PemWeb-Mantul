@@ -11,54 +11,24 @@
 
 <style>
         body{
-            background-image: url('https://dashboard.qiscus.com/images/dashboard/image-wave.svg');	
+            background-image: url('https://dashboard.qiscus.com/images/dashboard/image-wave.svg');
+            size: cover;	
         }
     </style>
 <body>
-
-    <nav class="navbar navbar-dark fixed-top bg-success shadow">
-        <img src="https://i.ibb.co/h7Btbz8/favicon.png" height=40 width=40>
-        <a class="navbar-brand" style="margin: auto;" href="#">Beranda Diabetes</a>
-    </nav>
-
     <div class="row justify-content-center">
         <div class="col-2 bg-light" style="padding-top:150px; max-height: 100%;" >
             <div class="container-fluid">
             <div class="nav flex-column nav-pills" role="tablist" style="max-width: 100%;">
-                <a class="nav-link active" data-toggle="pill" href="#">Beranda Diabetes</a>
-                <a class="nav-link" data-toggle="pill" href="{{ url_for('diabetes_data') }}">Data Diabetes</a>
-                <a class="nav-link" data-toggle="pill" href="{{ url_for('diabetes_input') }}">Input Diabetes</a>
-                <a class="nav-link" data-toggle="pill" href="{{ url_for('home') }}">Kembali ke Beranda</a>
+                <a class="nav-link active" href="#">Beranda Diabetes</a>
+                <a class="nav-link" href="{{ url_for('diabetes_data') }}">Data Diabetes</a>
+                <a class="nav-link" href="{{ url_for('diabetes_input') }}">Input Diabetes</a>
+                <a class="nav-link" href="{{ url_for('home') }}">Kembali ke Beranda</a>
             </div>
             </div>
         </div>
 
         <div class="col-10">
-            <div class = "col-md-12 mt-4">
-                <div class="row justify-content-center">
-                    <img src="https://i.ibb.co/ssCZ19m/dokter.png" height=40% width=40%>
-                </div>              
-            </div>
-
-            <div class="row justify-content-center">  
-            <div class="col-md-6">
-                <div class="card bg-white text-center">
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username">
-                            </div>
-                                        
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Password">
-                            </div>
-                                
-                            <button type="submit" class="btn btn-success shadow">LOGIN</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            </div>
         </div>
     </div>
 

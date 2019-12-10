@@ -1,50 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
+
 <head>
-	<link rel="stylesheet" type="text/css" href="style.css">
-
-<style>
-	body{
-		background-image: url('https://dashboard.qiscus.com/images/dashboard/image-wave.svg');	
-	}
-
-</style>
-<title>inputan data parkinson</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>NeuraHealth</title>
+  <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/h7Btbz8/favicon.png"/>
+  <link rel="stylesheet" href="{{url_for('static', filename='style_input.css') }}" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
-
-<style type="text/css">
-	.forms{
-		margin-right: 50px;
-		margin-left: 50px;
-		margin-top: 70px;
-	}
+ 
+<style>
+.box{
+    width: 600px;
+    margin: auto;
+    margin-bottom: 5%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+    background: rgba(248, 248, 255, 0.2);
+    border-radius: 5px;
+}
 </style>
 
 <body>
 
-
-	<div class="forms">
-
-		<h2>INPUTAN DATA GEJALA TUMOR OTAK</h2><br>
-		<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Masukkan Gambar</label>
-    <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-  </div>
+  <nav class="navbar navbar-light bg-success fixed-top shadow" >
+      <img src="https://i.ibb.co/h7Btbz8/favicon.png" height=40 width=40>
+      <a class="navbar-brand" style="margin: auto; color:white; letter-spacing: 4px; font-weight: bold;" href="#">INPUT DATA</a>
+      <button onclick="location.href='{{ url_for('tumor_home')}}'" class="btn btn-outline-light my-2 my-sm-0" style="letter-spacing: 2px;" type="button">HOME</button>
+  </nav>
   
+  <!-- <form method="POST"> -->
+  <div class="left-side">
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-	</div>
-	
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
+    <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DIAGNOSA PENYAKIT TUMOR OTAK</center>
+    <hr style="width:50%; color: black">
+    <center><img src="https://i.ibb.co/R9GfpcP/dokter.png" style="width: 200px; margin-top: 10px; margin-bottom: 20px;"></center>
+    
+    <div class="box">  
+      <form action="POST">
 
 
-<a href="{{ url_for('tumor_home') }}">Kembali ke portal</a>
+      <div class="input-group mb-3">
+          <div class="custom-file">
+              <input type="file" name="image" id="imageUpload" accept=".png, .jpg, .jpeg">
+            <label class="custom-file-label" >Pilih Gambar</label>
+          </div>
+        </div>
+
+    </form>
+    </div>
+  </div>
+
+  <div class="right-side">
+
+    <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DATA PASIEN</center>
+    <hr style="width:50%; color: black">
+    <br>
+    <div class="input1">  
+      <form action="POST">
+      <table>
+    
+        <tr>
+          <td>Nama</td>
+          <td><input type="text" name="name" class="form-control"></td>
+        </tr>
+
+        <tr>
+          <td>Tempat Lahir</td>
+          <td><input type="text" name="birthPlace" class="form-control"></td>
+        </tr>
+
+        <tr>
+          <td>Tanggal Lahir</td>
+          <td><input type="date" name="birthDate" class="form-control"></td>
+        </tr>
+
+        <tr>
+          <td>Nomor KTP</td>
+          <td><input type="text" name="noKtp" class="form-control"></td>
+        </tr>
+
+        <tr>
+          <td>ID Pasian</td>
+          <td><input type="text" name="idPasien" class="form-control"></td>
+        </tr>
+
+        <tr>
+          <td>Alamat</td>
+          <td><input type="textarea" name="address" class="form-control"></td>
+        </tr>
+          
+        <tr>
+          <td>Jenis Kelamin</td>
+          <td>
+            <div class="pl-3 mb-5 bg-white rounded border">
+                <input type="radio" name="gender" value="male"> Laki-laki<br>
+                <input type="radio" name="gender" value="female"> Perempuan<br>
+            </div>
+          </td>
+        </tr>
+      
+    </table>
+  </form>
+  </div>
+
+  <br>
+  <center><button type="button" class="btn btn-success btn-lg shadow" style="width: 500px;">SUBMIT</button></center>
+</div>
+
+<!-- </form> -->
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 </body>
+</html>

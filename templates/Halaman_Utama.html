@@ -5,7 +5,7 @@
     <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/QDd01hK/favicon.png"/>
     <link rel="stylesheet" href="{{url_for('static', filename='style-utama.css')}}" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-    <title>Neurahealt | Sistem Diagnosa Instan</title>
+    <title>Neurahealth | Sistem Diagnosa Instan</title>
   </head>
 <body>
 
@@ -13,9 +13,9 @@
   <div class="container">
     <div class="hero-image">  
       <div class="hero-text">
-        <h1 style="font-size:50px">Hello <span></span></h1>
+        <h2 style="font-size:50px">Selamat Datang di Neurahealth!</h2>
         <p>Ketika kecerdasan buatan cukup cerdas untuk mendiagnosa penyakit</p><br>
-        <button><a onclick="window.open('#about', '_self')"><i class="fas fa-hand-point-down"></i> Let's see</a></button>
+        <button><a onclick="window.open('#about', '_self')"><i class="fas fa-hand-point-down"></i> Lebih lanjut</a></button>
       </div>   
     </div>
 
@@ -23,10 +23,10 @@
     <header>
       <img src="https://i.ibb.co/QDd01hK/favicon.png" height=40 width=40>
         <ul>
-          <li><a href="#about">Tentang kami</a></li>
-          <li><a href="#socpro">Dibuat untuk</a></li>
-          <li><a href="#journ">Keunggulan</a></li>
-          <li><a href="#expert">Bergabung</a></li>
+          <li><a href="#about"><i class="fas fa-user">				</i> Tentang kami</a></li>
+          <li><a href="#socpro"><i class="fas fa-chalkboard-teacher">				</i> Dibuat untuk</a></li>
+          <li><a href="#journ"><i class="fas fa-thumbs-up">				</i> Keunggulan</a></li>
+          <li><a href="#expert"><i class="fas fa-sign-in-alt"></i> Bergabung</a></li>
         </ul>
     </header>
 
@@ -36,12 +36,12 @@
       <img src="{{url_for('static', filename='img/logo.png')}}" alt="Avatar"> 
     </div> 
     <div class="about-me-txt">
-      <h1>About me</h1>
-      <p>Hi! My name is Radical Rakhman Wahid.<br>
-        Was born in Jombang, Muharram 30<sup>th</sup> 1420.<br>
-        I'm a undergraduate student in UPN "VETERAN" Jawa Timur.<br>
-        Interested in Data Science, Software Engineering and Islamic Education as well.<br> 
-        Would really love to explore the combination of research into Artificial Intelligence.</p>
+      <h1>Tentang kami</h1>
+      <p>Neurahealth merupakan situs penyedia layanan<br>
+        diagnosa penyakit instan berbasis <i>machine learning</i>.<br>
+        Pilihan penyakit yang dapat diagnosa antara lain :<br>
+        Penyakit Diabetes, Jantung, Parkinson, Malaria, dan<br> 
+        Tumor otak.</p>
     </div>
   </div>
 
@@ -56,14 +56,14 @@
   </div>
   <div class="soc-projects">
     <div>
-        <p>Pasien</p>
+        <p style="font-size: larger;">Pasien</p>
       <img src="{{url_for('static', filename='img/pasien.png')}}" width="250" height="300">
-      <p>Pasien memiliki hak untuk<br>mengetahui hasil pemeriksaannya<br>sesegera mungkin.</p>
+      <p style="font-size: larger;">Pasien memiliki hak untuk<br>mengetahui hasil pemeriksaannya<br>sesegera mungkin.</p>
     </div>
     <div>
-        <p>Dokter</p>
+        <p style="font-size: larger;">Dokter</p>
       <img src="{{url_for('static', filename='img/doctor.png')}}" width="300" height="300">
-      <p>Dengan adanya Neurahealth<br>dokter dapat melakukan doagnosa<br>penyakit dengan cepat!</p>
+      <p style="font-size: larger;">Dengan adanya Neurahealth<br>dokter dapat melakukan doagnosa<br>penyakit dengan cepat!</p>
     </div>
   </div>
   

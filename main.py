@@ -3,6 +3,11 @@ from joblib import load
 import MySQLdb.cursors
 from flask_mysqldb import MySQL
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.utils import secure_filename
+from os.path import dirname, join
+from numpy import expand_dims
+from keras.models import load_model
+from keras.preprocessing import image
 
 app = Flask(__name__)
 
@@ -19,6 +24,19 @@ app.config['MYSQL_DB'] = 'neurahealth_users'
 mysql = MySQL(app)
 
 ############################### SUDAH MASUK KE LAMAN-LAMAN WEBSITE ###############################
+
+def load_image(img_path, show=False):
+    img = image.load_img(img_path, target_size=(224, 224))
+    img_tensor = image.img_to_array(img)
+    img_tensor = expand_dims(img_tensor, axis=0)         
+    img_tensor /= 255.
+
+    if show:
+        plt.imshow(img_tensor[0])                           
+        plt.axis('off')
+        plt.show()
+
+    return img_tensor
 
 # UNTUK MENAMPILKAN LAMAN UTAMA
 @app.route('/', methods=['GET'])
@@ -131,19 +149,20 @@ def profile():
 def diseases():
     # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
-
         if request.method == 'POST':
-            return redirect(url_for('malaria_home'))
-        elif request.method == 'POST' and request.form['msk'] == 2:
-            return redirect(url_for('jantung_home'))
-        elif request.method == 'POST' and request.form['msk'] == 3:
-            return redirect(url_for('tumor_home'))
-        elif request.method == 'POST' and request.form['msk'] == 4:
-            return redirect(url_for('diabetes_home'))
-        elif request.method == 'POST' and request.form['msk'] == 5:
-            return redirect(url_for('parkinson_home'))
-
-        return render_template('Pilihan_Penyakit.html', doctor_name=session['doctor_name'])
+            if request.form['msk'] == '1':
+                return redirect(url_for('malaria_home'))
+            elif request.form['msk'] == '2' :
+                return redirect(url_for('jantung_home'))
+            elif request.form['msk'] == '3':
+                return redirect(url_for('tumor_home'))
+            elif request.form['msk'] == '4':
+                return redirect(url_for('diabetes_home'))
+            elif request.form['msk'] == '5':
+                return redirect(url_for('parkinson_home'))
+            
+        return render_template('Pilihan_Penyakit.html')
+    
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
@@ -170,15 +189,19 @@ def diabetes_home():
 
 @app.route('/neurahealth/diabetes/diagnose', methods=['GET','POST'])
 def diabetes_input():
-    AI_diabetes = load('models/diabetes.pkl')
-    data1 = [[request.form['n_hamil'], request.form['glukosa'], request.form['tekanan_darah'], request.form['ketebalan_kulit'], request.form['kadar_insulin'], request.form['bmi'], request.form['riwayat'], request.form['umur']]]
-    
-    hasil = AI_diabetes.predict_proba(data1)
-    iya = hasil[0][0]*100
-    tidak = hasil[0][1]*100
-    
-    hasil = "Pasien terdiagnosa " + str(tidak) +"% terkena penyakit diabetes dan " + str(iya) + "% tidak terkena penyakit diabetes"
-    return(hasil)
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            AI_diabetes = load('models/diabetes.pkl')
+            data1 = [[request.form['jum_kel'], request.form['ka_glu'], request.form['tek_dar'], request.form['ket_kul'], request.form['insulin'], request.form['bmi'], request.form['ri_kel'], request.form['umur']]]
+
+            hasil = AI_diabetes.predict_proba(data1)
+            iya = hasil[0][0]*100
+            tidak = hasil[0][1]*100
+
+            hasil = ("Pasien terdiagnosa " + str(tidak) +"% terkena penyakit diabetes dan " + str(iya) + "% tidak terkena penyakit diabetes")
+            return(hasil)
+            
+    return render_template('inputan_diabetes.html')
 
 @app.route('/neurahealth/diabetes/data')
 def diabetes_data():
@@ -197,16 +220,19 @@ def jantung_home():
 
 @app.route('/neurahealth/jantung/diagnose', methods=['GET','POST'])
 def jantung_input():
-    AI_jantung = load('models/jantung.pkl')
-    data2 = [[request.form['umur'], request.form['je_ka'], request.form['cp'], request.form['blood_pres'], request.form['chol'], request.form['fbs'], request.form['res_electro'], request.form['heart_rate'], request.form['angia'], request.form['oldpeak'], request.form['slope'], request.form['n_vena'], request.form['thal']]]
-    
-    hasil1 = AI_jantung.predict_proba(data2)
-    iya1 = hasil[0][0]*100
-    tidak1 = hasil[0][1]*100
-    return(tidak1)
-    hasil1 = "Pasien terdiagnosa " + str(tidak1) +"% terkena penyakit jantung dan " + str(iya1) + "% tidak terkena penyakit jantung"
-    
-    return(hasil1)
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            AI_jantung = load('models/jantung.pkl')
+            data1 = [[request.form['jum_kel'], request.form['ka_glu'], request.form['tek_dar'], request.form['ket_kul'], request.form['insulin'], request.form['bmi'], request.form['ri_kel'], request.form['umur']]]
+
+            hasil = AI_jantung.predict_proba(data1)
+            iya = hasil[0][0]*100
+            tidak = hasil[0][1]*100
+
+            hasil = ("Pasien terdiagnosa " + str(tidak) +"% terkena penyakit diabetes dan " + str(iya) + "% tidak terkena penyakit diabetes")
+            return(hasil)
+
+    return render_template('inputan_jantung.html')
 
 @app.route('/neurahealth/jantung/data')
 def jantung_data():
@@ -215,16 +241,18 @@ def jantung_data():
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
-# MALARIA
-@app.route('/neurahealth/malaria', methods=['GET','POST'])
+############################################################################################## IMAGE ##############################################################################################
+
+@app.route('/neurahealth/malaria')
 def malaria_home():
     return render_template('Beranda_Malaria.html')
 
 @app.route('/neurahealth/malaria/diagnose')
 def malaria_input():
+    #model = load_model("models/malaria.h5")
     # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
-        return render_template('inputan_malaria.html', doctor_name=session['doctor_name'])
+        return render_template('index.html')
     
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
@@ -242,10 +270,30 @@ def tumor_home():
 def tumor_input():
     # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
-        return render_template('inputan_tumor_otak.html', doctor_name=session['doctor_name'])
+        return render_template('index.html')
     
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
+
+@app.route('/predict', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        model = load_model("models/tumor_otak.h5")
+        f = request.files['image']
+        
+        basepath = dirname(__file__)
+        file_path = join(basepath, 'uploads', secure_filename(f.filename))
+        f.save(file_path)
+
+        new_image = load_image(file_path)
+        pred = model.predict(new_image)
+        
+        if pred[0][0] > pred[0][1]:
+            return str(str(pred[0][0]*100)+"% ada tumor")
+        else:
+            return str(str(pred[0][1]*100)+"% Tidak ada Tumor")
+
+    return None
 
 @app.route('/neurahealth/tumor/data', methods=['GET','POST'])
 def tumor_data():
@@ -263,7 +311,14 @@ def parkinson_home():
 
 @app.route('/neurahealth/parkinson/diagnose', methods=['GET','POST'])
 def parkinson_input():
-    return render_template('Data_Pasien_Parkinson.html')
+    #model = load_model("models/parkinson.h5")
+    # CEK APAKAH USER SUDAH LOGIN
+    if 'loggedin' in session:
+        return render_template('index.html')
+    
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
 
 @app.route('/neurahealth/parkinson/data', methods=['GET','POST'])
 def parkinson_data():
