@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://i.imgur.com/bWpEPPH.png">
+  <img src="https://i.imgur.com/uiStZB5.jpg">
 </p>
 
 Mulai dari sini :<br>
