@@ -212,7 +212,7 @@ def diabetes_data():
         cursor.execute('SELECT name, birth_plc, birth_date, ktp, alamat, gender, result FROM neurahealth_patients WHERE byuser = %s and diseases = %s', [session['doctor_name'], "Diabetes"])
         rv = cursor.fetchall()
 
-        data_ekspor = pd.DataFrame()
+        #data_ekspor = pd.DataFrame()
 
         return render_template('Data_Pasien_Diabetes.html', value=rv)
     
