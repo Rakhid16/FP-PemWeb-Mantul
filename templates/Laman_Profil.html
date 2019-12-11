@@ -3,13 +3,13 @@
 
 {% block content %}     <!-- MEMUAT BAGIAN TEMPLATE KONTEN DARI layout.html -->
 <h2>Profil Rumah Sakit</h2>
-<div>
+<div><p>
     <div class=profile_pict>
         <img src="{{url_for('static', filename='img/profile.svg')}}" height=65% width=65%>
     </div>
 
     <div class=profile_descr>
-        <p>Ini adalah detail akun Anda :</p>
+        Ini adalah detail akun Anda :
         <table>
             <!-- DATA-DATA DI BAWAH INI DIAMBIL DARI DATABASE -->
             <tr>
@@ -35,30 +35,26 @@
                 <td>: {{ account['hospital_code'] }}</td>
             </tr>
 
-            <tr>
-                <td>Spesialis Malaria</td>
-                <td>: {{ account['hospital_code'] }}</td>
-            </tr>
-
-            <tr>
-                <td>Spesialis Jantung</td>
-                <td>: {{ account['hospital_code'] }}</td>
-            </tr>
-
-            <tr>
-                <td>Spesialis Kanker Otak</td>
-                <td>: {{ account['hospital_code'] }}</td>
-            </tr>
-
-            <tr>
-                <td>Spesialis Diabetes</td>
-                <td>: {{ account['hospital_code'] }}</td>
-            </tr>
-             <tr>
-                <td>Spesialis Parkinson</td>
-                <td>: {{ account['hospital_code'] }}</td>
-            </tr>
         </table>
-    </div>
+    </div><br><br><br><br><br><br><br><br><br><br><br></p>
 </div>
+<center><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="fas fa-hand-point-down"></i> Edit Data</button></center>
+<div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+           <div class="modal-content">   
+              <div class="modal-body">
+                <form method="POST">
+                    <div class="form-group"><center>
+                      <label for="exampleInputPassword1">Hanya data ini yang dapat diubah</label><br></center>
+                      <input class="form-control" placeholder="Surel" name="email" type="text"><br>
+                      <input class="form-control" placeholder="Sandi lewat" name="password" type="text"><br>
+                      <input class="form-control" placeholder="Nama Rumah Sakit" name="hos_name" type="text"><br>
+                      <center><input type="submit" class="btn btn-success" value="Ubah Data">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button></center>
+                    </div>
+                </form>
+              </div>
+           </div>
+        </div>
+      </div>
 {% endblock %}

@@ -7,13 +7,17 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>NeuraHealth</title>
   <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/h7Btbz8/favicon.png"/>
-  <link rel="stylesheet" href="{{url_for('static', filename='style_input.css') }}" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
  
 <style>
+
+body{
+    background: linear-gradient(to left, whitesmoke 50%, #90EE90 50%);
+}
+
 .box{
-    width: 600px;
+    width: 450px;
     margin: auto;
     margin-bottom: 5%;
     padding-top: 3%;
@@ -22,7 +26,17 @@
     padding-right: 3%;
     background: rgba(248, 248, 255, 0.2);
     border-radius: 5px;
+    /* font-family: 'Century Gothic', sans-serif; */
 }
+
+.boxdata{
+    width: 400px;
+    margin: auto;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
 </style>
 
 <body>
@@ -30,115 +44,134 @@
   <nav class="navbar navbar-light bg-success fixed-top shadow" >
       <img src="https://i.ibb.co/h7Btbz8/favicon.png" height=40 width=40>
       <a class="navbar-brand" style="margin: auto; color:white; letter-spacing: 4px; font-weight: bold;" href="#">INPUT DATA</a>
-      <button onclick="location.href='{{ url_for('parkinson_home')}}'" class="btn btn-outline-light my-2 my-sm-0" style="letter-spacing: 2px;" type="button">HOME</button>
+      <a href="{{url_for('malaria_home')}}" class="btn btn-outline-light my-2 my-sm-0" style="text-decoration: none; letter-spacing: 2px;">HOME</a>
   </nav>
   
-  <!-- <form method="POST"> -->
-  <div class="left-side">
+  <!-- Columns are always 50% wide, on mobile and desktop -->
+  <div class="row" style="margin-top: 100px;">
 
-    <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DIAGNOSA PENYAKIT PARKINSON</center>
-    <hr style="width:50%; color: black">
-    <center><img src="https://i.ibb.co/R9GfpcP/dokter.png" style="width: 200px; margin-top: 10px; margin-bottom: 20px;"></center>
-    
-    <div class="box">  
-      <form action="POST">
-      <table>
-    
-        <tr>
-          <td>Umur</td>
-          <td><input type="text" name="umur" class="form-control"></td>
-        </tr>
+    <div class="col-6">        
+        <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DIAGNOSA PENYAKIT PARKINSON</center>
+        <hr style="width:50%; color: black">
         
-        <tr>
-          <td>Jenis Kelamin</td>
-          <td><input type="text" name="je_ka" class="form-control"></td>
-        </tr>
-        
-        <tr>
-          <td>Rata-rata Relatif Tremor</td>
-          <td><input type="text" name="rata_rel_tre" class="form-control"></td>
-        </tr>
+    </div>
 
-      </table>
+    <div class="col-6">
+        <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DATA PASIEN</center>
+        <hr style="width:50%; color: black">
+    </div>
+
+  </div>
+
+  <form action="POST">
+
+    <!-- Columns are always 50% wide, on mobile and desktop -->
+    <div class="row">
+      <div class="col-6" style="line-height: 50px;">
+        <div class="box">
+         
+          <table>
+    
+            <tr>
+              <td>Umur</td>
+              <td><input type="text" name="umur" class="form-control"></td>
+            </tr>
+            
+            <tr>
+              <td>Jenis Kelamin</td>
+              <td><input type="text" name="je_ka" class="form-control"></td>
+            </tr>
+            
+            <tr>
+              <td>Rata-rata Relatif Tremor</td>
+              <td><input type="text" name="rata_rel_tre" class="form-control"></td>
+            </tr>
+
+          </table>
+
+          <div style="display: flex; flex-direction: column;  align-items: center; margin-top: 1em;">
+              <form id="upload-file" method="post" enctype="multipart/form-data">
+                  <label for="imageUpload" class="upload-label">
+                      Pilih file...
+                  </label>
+                  <input type="file" name="image" id="imageUpload" accept=".png, .jpg, .jpeg">
+              </form>
+             
+              <div class="image-section" style="display:none;">
+                  <div class="img-preview">
+                      <div id="imagePreview">
+                      </div>
+                  </div>
+                  <div style="display: flex; flex-direction: column;  align-items: center; margin-top: 2em;">
+                      <button type="button" class="btn btn-primary btn-lg " id="btn-predict">Predict!</button>
+                  </div>
+              </div>
       
-      <br>
-
-      <div class="input-group mb-3">
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" >
-            <label class="custom-file-label" >Input Gambar Tangan Kanan/Kiri</label>
+              <div class="loader" style="display:none;"></div>
+      
+              <h3 id="result">
+                  <span> </span>
+              </h3>
+      
           </div>
+
         </div>
+      </div>
 
-        <div class="input-group mb-3">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" >
-              <label class="custom-file-label" >Upload Gambar Tangan</label>
-            </div>
-          </div>
+      <div class="col-6" style="line-height: 50px;">
+        
+        <div class="boxdata">
+          <table>
+            <tr>
+              <td>Nama</td>
+              <td><input type="text" name="name" class="form-control"></td>
+            </tr>
 
-    </form>
+            <tr>
+              <td>Tempat Lahir</td>
+              <td><input type="text" name="birthPlace" class="form-control"></td>
+            </tr>
+
+            <tr>
+              <td>Tanggal Lahir</td>
+              <td><input type="date" name="birthDate" class="form-control"></td>
+            </tr>
+
+            <tr>
+              <td>Nomor KTP</td>
+              <td><input type="text" name="noKtp" class="form-control"></td>
+            </tr>
+
+            <tr>
+              <td>ID Pasian</td>
+              <td><input type="text" name="idPasien" class="form-control"></td>
+            </tr>
+
+            <tr>
+              <td>Alamat</td>
+              <td><input type="textarea" name="address" class="form-control"></td>
+            </tr>
+              
+            <tr>
+              <td>Jenis Kelamin</td>
+              <td>
+                <div class="pl-3 mb-5 bg-white rounded border">
+                    <input type="radio" name="gender" value="male"> Laki-laki<br>
+                    <input type="radio" name="gender" value="female"> Perempuan<br>
+                </div>
+              </td>
+            </tr>
+        </table>
+      </div>
+
     </div>
   </div>
 
-  <div class="right-side">
-
-    <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DATA PASIEN</center>
-    <hr style="width:50%; color: black">
-    <br>
-    <div class="input1">  
-      <form action="POST">
-      <table>
-    
-        <tr>
-          <td>Nama</td>
-          <td><input type="text" name="name" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>Tempat Lahir</td>
-          <td><input type="text" name="birthPlace" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>Tanggal Lahir</td>
-          <td><input type="date" name="birthDate" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>Nomor KTP</td>
-          <td><input type="text" name="noKtp" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>ID Pasian</td>
-          <td><input type="text" name="idPasien" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>Alamat</td>
-          <td><input type="textarea" name="address" class="form-control"></td>
-        </tr>
-          
-        <tr>
-          <td>Jenis Kelamin</td>
-          <td>
-            <div class="pl-3 mb-5 bg-white rounded border">
-                <input type="radio" name="gender" value="male"> Laki-laki<br>
-                <input type="radio" name="gender" value="female"> Perempuan<br>
-            </div>
-          </td>
-        </tr>
-      
-    </table>
-  </form>
+  <div class="row justify-content-center" style="margin-top: 10px; margin-bottom: 50px;">
+    <button type="button" class="btn btn-success btn-lg shadow" style="width: 500px;">SUBMIT</button>
   </div>
-
-  <br>
-  <center><button type="button" class="btn btn-success btn-lg shadow" style="width: 500px;">SUBMIT</button></center>
-</div>
-
-<!-- </form> -->
+    
+  </form>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

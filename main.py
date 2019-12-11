@@ -5,9 +5,11 @@ from flask_mysqldb import MySQL
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from os.path import dirname, join
-from numpy import expand_dims
+from numpy import expand_dims, argmax
 from keras.models import load_model
 from keras.preprocessing import image
+from keras import backend as K
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -22,7 +24,7 @@ app.config['MYSQL_PORT'] = 3307
 app.config['MYSQL_DB'] = 'neurahealth_users'
 
 mysql = MySQL(app)
-
+bantu = "SAKIT"
 ############################### SUDAH MASUK KE LAMAN-LAMAN WEBSITE ###############################
 
 def load_image(img_path, show=False):
@@ -130,7 +132,7 @@ def home():
     return redirect(url_for('login'))
 
 # RUTE UNTUK LAMAN PROFIL - HARUS LOGIN DULU
-@app.route('/neurahealth/profile')
+@app.route('/neurahealth/profile', methods=['GET', 'POST'])
 def profile():
     # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
@@ -138,7 +140,11 @@ def profile():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE doctor_id = %s', [session['doctor_id']])
         account = cursor.fetchone()   # AMBIL SATU DATA
-        
+
+        if request.method == 'POST':
+            cursor.execute('UPDATE accounts set email = %s, pass_word = %s, hospital_name = %s WHERE doctor_name = %s', (request.form['email'], request.form['password'], request.form['hos_name'], session['doctor_name']))
+            mysql.connection.commit()
+
         return render_template('Laman_Profil.html', account=account)
     
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
@@ -147,20 +153,7 @@ def profile():
 # RUTE UNTUK LAMAN DAFTAR PENYAKIT - HARUS LOGIN DULU
 @app.route('/neurahealth/diseases', methods=['GET', 'POST'])
 def diseases():
-    # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
-        if request.method == 'POST':
-            if request.form['msk'] == '1':
-                return redirect(url_for('malaria_home'))
-            elif request.form['msk'] == '2' :
-                return redirect(url_for('jantung_home'))
-            elif request.form['msk'] == '3':
-                return redirect(url_for('tumor_home'))
-            elif request.form['msk'] == '4':
-                return redirect(url_for('diabetes_home'))
-            elif request.form['msk'] == '5':
-                return redirect(url_for('parkinson_home'))
-            
         return render_template('Pilihan_Penyakit.html')
     
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
@@ -184,12 +177,15 @@ def logout():
 def diabetes_home():
     if 'loggedin' in session:
         return render_template('Beranda_Diabetes.html', doctor_name=session['doctor_name'])
-    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+
     return redirect(url_for('login'))
 
 @app.route('/neurahealth/diabetes/diagnose', methods=['GET','POST'])
 def diabetes_input():
     if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+        msg = ''
         if request.method == 'POST':
             AI_diabetes = load('models/diabetes.pkl')
             data1 = [[request.form['jum_kel'], request.form['ka_glu'], request.form['tek_dar'], request.form['ket_kul'], request.form['insulin'], request.form['bmi'], request.form['ri_kel'], request.form['umur']]]
@@ -198,16 +194,28 @@ def diabetes_input():
             iya = hasil[0][0]*100
             tidak = hasil[0][1]*100
 
-            hasil = ("Pasien terdiagnosa " + str(tidak) +"% terkena penyakit diabetes dan " + str(iya) + "% tidak terkena penyakit diabetes")
-            return(hasil)
+            if iya > tidak:
+                cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], "Y", session['doctor_name'], "Diabetes")) # NULL KARENA KOLOM ID AUTOINCREMENT
+                mysql.connection.commit()
+                return render_template('hasil_diabetes.html', msg="Kena penyakit diabetes")
+            else:
+                cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], "T", session['doctor_name'], "Diabetes")) # NULL KARENA KOLOM ID AUTOINCREMENT
+                mysql.connection.commit()
+                return render_template('hasil_diabetes.html', msg="Tidak kena penyakit diabetes")
             
     return render_template('inputan_diabetes.html')
 
 @app.route('/neurahealth/diabetes/data')
 def diabetes_data():
     if 'loggedin' in session:
-        return render_template('Data_Pasien_Diabetes.html', doctor_name=session['doctor_name'])
-    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT name, birth_plc, birth_date, ktp, alamat, gender, result FROM neurahealth_patients WHERE byuser = %s and diseases = %s', [session['doctor_name'], "Diabetes"])
+        rv = cursor.fetchall()
+
+        data_ekspor = pd.DataFrame()
+
+        return render_template('Data_Pasien_Diabetes.html', value=rv)
+    
     return redirect(url_for('login'))
 
 # PENYAKIT JANTUNG
@@ -215,70 +223,127 @@ def diabetes_data():
 def jantung_home():
     if 'loggedin' in session:
         return render_template('Beranda_Jantung.html', doctor_name=session['doctor_name'])
-    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+
     return redirect(url_for('login'))
 
 @app.route('/neurahealth/jantung/diagnose', methods=['GET','POST'])
 def jantung_input():
     if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
         if request.method == 'POST':
             AI_jantung = load('models/jantung.pkl')
-            data1 = [[request.form['jum_kel'], request.form['ka_glu'], request.form['tek_dar'], request.form['ket_kul'], request.form['insulin'], request.form['bmi'], request.form['ri_kel'], request.form['umur']]]
+            data1 = [[request.form['je_ka'], request.form['cp'], request.form['blood_pres'], request.form['chol'], request.form['fbs'], request.form['heart_rate'], request.form['thal'], request.form['umur']]]
 
             hasil = AI_jantung.predict_proba(data1)
             iya = hasil[0][0]*100
             tidak = hasil[0][1]*100
 
-            hasil = ("Pasien terdiagnosa " + str(tidak) +"% terkena penyakit diabetes dan " + str(iya) + "% tidak terkena penyakit diabetes")
-            return(hasil)
+            if iya > tidak:
+                cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], "Y", session['doctor_name'], "Jantung")) # NULL KARENA KOLOM ID AUTOINCREMENT
+                mysql.connection.commit()
+                return render_template('hasil_jantung.html', msg="Kena penyakit jantung")
+            else:
+                cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], "T", session['doctor_name'], "Jantung")) # NULL KARENA KOLOM ID AUTOINCREMENT
+                mysql.connection.commit()
+                return render_template('hasil_jantung.html', msg="Tidak kena penyakit jantung")
 
     return render_template('inputan_jantung.html')
 
 @app.route('/neurahealth/jantung/data')
 def jantung_data():
     if 'loggedin' in session:
-        return render_template('Data_Pasien_Jantung.html', doctor_name=session['doctor_name'])
-    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT name, birth_plc, birth_date, ktp, alamat, gender, result FROM neurahealth_patients WHERE byuser = %s and diseases = %s', [session['doctor_name'], "Jantung"])
+        rv = cursor.fetchall()
+
+        return render_template('Data_Pasien_Jantung.html', value=rv)
+
     return redirect(url_for('login'))
 
 ############################################################################################## IMAGE ##############################################################################################
 
 @app.route('/neurahealth/malaria')
 def malaria_home():
-    return render_template('Beranda_Malaria.html')
+    if 'loggedin' in session:
+        return render_template('Beranda_Malaria.html')
+    return redirect(url_for('login'))
 
-@app.route('/neurahealth/malaria/diagnose')
+@app.route('/neurahealth/malaria/diagnose', methods=['GET','POST'])
 def malaria_input():
-    #model = load_model("models/malaria.h5")
-    # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
         return render_template('index.html')
-    
-    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+
     return redirect(url_for('login'))
 
 @app.route('/neurahealth/malaria/data', methods=['GET','POST'])
 def malaria_data():
-    return render_template('Data_Pasien_Malaria.html')
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT name, birth_plc, birth_date, ktp, alamat, gender, result FROM neurahealth_patients WHERE byuser = %s and diseases = %s", [session['doctor_name'], "Malaria"])
+        rv = cursor.fetchall()
+
+        return render_template("Data_Pasien_Malaria.html", value=rv)
+
+    return redirect(url_for('login'))
 
 # TUMOR OTAK
-@app.route('/neurahealth/tumor', methods=['GET','POST'])
+@app.route('/neurahealth/tumor')
 def tumor_home():
-    return render_template('Beranda_Tumor.html')
-
-@app.route('/neurahealth/tumor/diagnose')
-def tumor_input():
-    # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
-        return render_template('index.html')
+        return render_template('Beranda_Tumor.html')
+    return redirect(url_for('login'))
+
+@app.route('/neurahealth/tumor/diagnose', methods=['GET','POST'])
+def tumor_input():
+    if 'loggedin' in session:
+        return render_template('index1.html')
+    return redirect(url_for('login'))
+
+@app.route('/neurahealth/tumor/data', methods=['GET','POST'])
+def tumor_data():
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT name, birth_plc, birth_date, ktp, alamat, gender, result FROM neurahealth_patients WHERE byuser = %s and diseases = %s", [session['doctor_name'], "Tumor"])
+        rv = cursor.fetchall()
+        return render_template('Data_Pasien_Tumor.html', value=rv)
+
+    return redirect(url_for('login'))
+
+# PARKINSON
+@app.route('/neurahealth/parkinson')
+def parkinson_home():
+    if 'loggedin' in session:
+        return render_template('Beranda_Parkinson.html', doctor_name=session['doctor_name'])
     
-    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
+@app.route('/neurahealth/parkinson/diagnose', methods=['GET','POST'])
+def parkinson_input():
+    if 'loggedin' in session:
+        return render_template('index2.html')
+    
+    return redirect(url_for('login'))
+
+@app.route('/neurahealth/parkinson/data', methods=['GET','POST'])
+def parkinson_data():
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT name, birth_plc, birth_date, ktp, alamat, gender, result FROM neurahealth_patients WHERE byuser = %s and diseases = %s", [session['doctor_name'], "Parkinson"])
+        rv = cursor.fetchall()
+        return render_template('Data_Pasien_Parkinson.html', value=rv)
+    
     return redirect(url_for('login'))
 
 @app.route('/predict', methods=['GET', 'POST'])
 def upload():
+    global bantu
+
     if request.method == 'POST':
-        model = load_model("models/tumor_otak.h5")
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        model = load_model("models/GAMBAR_KABEH.h5")
+        model._make_predict_function()
+        
         f = request.files['image']
         
         basepath = dirname(__file__)
@@ -286,40 +351,50 @@ def upload():
         f.save(file_path)
 
         new_image = load_image(file_path)
-        pred = model.predict(new_image)
         
-        if pred[0][0] > pred[0][1]:
-            return str(str(pred[0][0]*100)+"% ada tumor")
+        pred = model.predict(new_image)
+        K.clear_session()
+
+        if argmax(pred) == 0:
+            bantu = "Y"
+            cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], bantu, session['doctor_name'], "Malaria")) # NULL KARENA KOLOM ID AUTOINCREMENT
+            mysql.connection.commit()
+            msg = "Data Sudah Tersimpan!"
+            return str("Kena penyakit malaria")
+        
+        elif argmax(pred) == 1:
+            bantu = "T"
+            cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], bantu, session['doctor_name'], "Malaria")) # NULL KARENA KOLOM ID AUTOINCREMENT
+            mysql.connection.commit()
+            msg = "Data Sudah Tersimpan!"
+            return str("Ndak kena ada malaria")
+        
+        elif argmax(pred) == 2:
+            bantu = "Y"
+            cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], bantu, session['doctor_name'], "Parkinson")) # NULL KARENA KOLOM ID AUTOINCREMENT
+            mysql.connection.commit()
+            msg = "Data Sudah Tersimpan!"
+            return str("Kena penyakit parkinson")
+        
+        elif argmax(pred) == 3:
+            bantu = "T"
+            cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], bantu, session['doctor_name'], "Parkinson")) # NULL KARENA KOLOM ID AUTOINCREMENT
+            mysql.connection.commit()
+            msg = "Data Sudah Tersimpan!"
+            return str("Ndak kena penyakit parkinson")
+        
+        elif argmax(pred) == 4:
+            bantu = "Y"
+            cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], bantu, session['doctor_name'], "Tumor")) # NULL KARENA KOLOM ID AUTOINCREMENT
+            mysql.connection.commit()
+            msg = "Data Sudah Tersimpan!"
+            return str("Kena penyakit Tumor")
+        
         else:
-            return str(str(pred[0][1]*100)+"% Tidak ada Tumor")
+            bantu = "T"
+            cursor.execute('INSERT INTO neurahealth_patients VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (request.form['name'], request.form['birthPlace'], request.form['birthDate'], request.form['noKtp'], request.form['address'], request.form['gender'], bantu, session['doctor_name'], "Tumor")) # NULL KARENA KOLOM ID AUTOINCREMENT
+            mysql.connection.commit()
+            msg = "Data Sudah Tersimpan!"
+            return str("Ndak kena penyakit Tumor")
 
     return None
-
-@app.route('/neurahealth/tumor/data', methods=['GET','POST'])
-def tumor_data():
-    return render_template('Data_Pasien_Tumor.html')
-
-# PARKINSON
-@app.route('/neurahealth/parkinson')
-def parkinson_home():
-    # CEK APAKAH USER SUDAH LOGIN
-    if 'loggedin' in session:
-        return render_template('Beranda_Parkinson.html', doctor_name=session['doctor_name'])
-    
-    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
-    return redirect(url_for('login'))
-
-@app.route('/neurahealth/parkinson/diagnose', methods=['GET','POST'])
-def parkinson_input():
-    #model = load_model("models/parkinson.h5")
-    # CEK APAKAH USER SUDAH LOGIN
-    if 'loggedin' in session:
-        return render_template('index.html')
-    
-    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
-    return redirect(url_for('login'))
-
-
-@app.route('/neurahealth/parkinson/data', methods=['GET','POST'])
-def parkinson_data():
-    return render_template('Data_Pasien_Parkinson.html')

@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>NeuraHealth</title>
     <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/h7Btbz8/favicon.png"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 
@@ -17,9 +18,9 @@
 <body>
 
     <div class="row justify-content-center">
-        <div class="col-2 bg-light" style="padding-top:150px; max-height: 100%;" >
+        <div class="col-2 bg-light" style="padding-top:150px; padding-bottom:150px; height: 100%;" >
             <div class="container-fluid">
-            <div class="nav flex-column nav-pills" role="tablist" style="max-width: 100%;">
+            <div class="nav flex-column nav-pills" role="tablist" style="max-width: 80%;">
                 <a class="nav-link active" href="#">Beranda Parkinson</a>
                 <a class="nav-link" href="{{ url_for('parkinson_data') }}">Data Parkinson</a>
                 <a class="nav-link" href="{{ url_for('parkinson_input') }}">Input Parkinson</a>
@@ -29,7 +30,12 @@
         </div>
 
         <div class="col-10">
-
+                <div class = "col-md-12 mt-4">
+                        <div class="row justify-content-center">
+                            <img src="https://i.ibb.co/R9GfpcP/dokter.png" height=40% width=40%>
+                            <div class="content"><p align=center>Ini adalah laman untuk penyakit Parkinson!</p></div>
+                        </div>              
+                    </div>
         </div>
     </div>
 

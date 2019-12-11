@@ -3,7 +3,7 @@
 
 {% block content %}     <!-- MEMUAT BAGIAN TEMPLATE KONTEN DARI layout.html -->
 <h2>Beranda</h2>
-<p align=center>Selamat Datang di Neura Health!</p>
+<p align=center>Selamat Datang di Neura Health, {{ doctor_name }}!</p>
 <center>
    <img src="{{url_for('static', filename='img/doctor.svg')}}" height=50% width=50%>
 </center>

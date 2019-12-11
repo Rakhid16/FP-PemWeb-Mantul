@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Final Project Pemrograman Website</title>
+    <title>Neurahealth</title>
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/h7Btbz8/favicon.png"/>
     <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
@@ -13,12 +14,11 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Sistem Diagnosa Penyakit</a>
-            <a href="https://github.com/Rakhid16/fp-pemweb-mantul/" class="btn btn-info my-2 my-sm-0" style="text-decoration: none;">About</a>
-        </div>
-    </nav>
+        <nav class="navbar navbar-light bg-success fixed-top shadow" >
+                <img src="https://i.ibb.co/h7Btbz8/favicon.png" height=40 width=40>
+                <a class="navbar-brand" style="margin: auto; color:white; letter-spacing: 4px; font-weight: bold;" href="#">INPUT DATA</a>
+                {% block aja %}{% endblock %}
+            </nav>
     <div class="container">
         <div id="content" style="margin-top:3em;">{% block content %}{% endblock %}</div>
     </div>

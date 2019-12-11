@@ -3,61 +3,143 @@
 <head>
    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/QDd01hK/favicon.png"/>
    <link rel="stylesheet" type="text/css" href="style.css">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
    <title>NeuraHealth</title>
 
-   <style>body{
-		background-image: url('https://dashboard.qiscus.com/images/dashboard/image-wave.svg');	
-	}</style>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
-</head>
-
-<style type="text/css">
+  <style type="text/css">
+   
+  body{
+    
+    background-image: url('https://dashboard.qiscus.com/images/dashboard/image-wave.svg');
+    background-repeat:no-repeat;	
+  }
+  
 	.forms{
 		margin-right: 50px;
 		margin-left: 50px;
-		margin-top: 70px;
+    margin-top: 70px; 
    }
-   
-   table{
-      background-color: whitesmoke;
-   }
+
+  table {
+    margin-top: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #666;
+    text-shadow: 1px 1px 0px #fff;
+    background: #eaebec;
+    border: #ccc 1px solid;
+  }
+
+  table th {
+    padding: 15px 50px;
+    border-left:1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    background: #ededed;
+  }
+
+  table th:first-child{  
+    border-left:none;  
+  }
+
+  table tr {
+    text-align: center;
+    padding-left: 20px;
+  }
+
+  table td:first-child {
+    text-align: left;
+    padding-left: 20px;
+    border-left: 0;
+  }
+
+  table td {
+    padding: 15px 50px;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    background: #fafafa;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+    background: -moz-linear-gradient(top, #fbfbfb, #fafafa);
+  }
+
+  table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  table tr:last-child td:first-child {
+    -moz-border-radius-bottomleft: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  table tr:last-child td:last-child {
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+  table tr:hover td {
+    background: #f2f2f2;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+    background: -moz-linear-gradient(top, #f2f2f2, #f0f0f0);
+  }
 </style>
+  
 </head>
 <body>
-   <div class="forms">
+ 
+    <div class="row justify-content-center">
+        <div class="col-2 bg-light" style="padding:150px 0px 0px 0px; max-height: 100%;" >
+            <div class="container-fluid">
+            <div class="nav flex-column nav-pills" role="tablist" style="max-width: 100%;">
+                <a class="nav-link active" data-toggle="pill" href="{{ url_for('jantung_home') }}">Beranda Jantung</a>
+                <a class="nav-link"  href="#">Data Jantung</a>
+                <a class="nav-link"  href="{{ url_for('jantung_input') }}">Input Jantung</a>
+                <a class="nav-link"  href="{{ url_for('home') }}">Kembali ke Beranda</a>
+            </div>
+            </div>
+        </div>
 
-		<h2>Data Pasien Jantung</h2><br>
-		<form method="POST">
-  <div class="form">
-      <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">Nama Pasien</th>
-                <th scope="col">Alamat</th>
-                <th scope="col">Hasil</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-    
-  </div>
-  
-  
-   <button><a href="{{ url_for('jantung_home') }}">Kembali ke portal</a></button>  
-</form>
+        <div class="col-10">
+          <div class="row justify-content-center">  
+            <div class="col-md-10">
+              <div class="table-responsive">
+                    <br>
+                            <table class="table table-hover">
+                              <thead>
+                                <tr>
+                                  <th>Nama</th>
+                                  <th>Tempat Lahir</th>
+                                  <th>Tanggal Lahir</th>
+                                  <th>Nomor KTP</th>
+                                  <th>Alamat</th>
+                                  <th>Kelamin</th>
+                                  <th>Hasil Diagnosa</th>
+                                </tr>
+                                </thead>
+                                
+                                <tbody>
+                                {% for row in value %}
+                                <tr>
+                                  <th>{{ row[0] }}</th>
+                                  <th>{{ row[1] }}</th>
+                                  <th>{{ row[2] }}</th>
+                                  <th>{{ row[3] }}</th>
+                                  <th>{{ row[4] }}</th>
+                                  <th>{{ row[5] }}</th>
+                                  <th>{{ row[6] }}</th>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                              </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>  
 	</div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
-   
-   </table>
 </body>
 </html>
+

@@ -7,11 +7,15 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>NeuraHealth</title>
   <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/h7Btbz8/favicon.png"/>
-  <link rel="stylesheet" href=" {{url_for('static', filename='style_input.css') }}" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
  
 <style>
+
+body{
+    background: linear-gradient(to left, whitesmoke 50%, #90EE90 50%);
+}
+
 .box{
     width: 400px;
     margin: auto;
@@ -24,6 +28,15 @@
     border-radius: 5px;
     /* font-family: 'Century Gothic', sans-serif; */
 }
+
+.boxdata{
+    width: 400px;
+    margin: auto;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
 </style>
 
 <body>
@@ -31,121 +44,121 @@
   <nav class="navbar navbar-light bg-success fixed-top shadow" >
       <img src="https://i.ibb.co/h7Btbz8/favicon.png" height=40 width=40>
       <a class="navbar-brand" style="margin: auto; color:white; letter-spacing: 4px; font-weight: bold;" href="#">INPUT DATA</a>
-      <button onclick="location.href='{{ url_for('diabetes_home')}}'" class="btn btn-outline-light my-2 my-sm-0" style="letter-spacing: 2px;" type="button">HOME</button>
+      <a href="{{url_for('malaria_home')}}" class="btn btn-outline-light my-2 my-sm-0" style="text-decoration: none; letter-spacing: 2px;">HOME</a>
   </nav>
   
-  <div class="left-side">
+  <!-- Columns are always 50% wide, on mobile and desktop -->
+  <div class="row" style="margin-top: 100px;">
 
-    <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DIAGNOSA PENYAKIT DIABETES</center>
-    <hr style="width:50%; color: black">
-    <center><img src="https://i.ibb.co/R9GfpcP/dokter.png" style="width: 200px; margin-top: 10px; margin-bottom: 20px;"></center>
-    
-    <div class="box">  
-      <form method="POST">
-      <table>
-    
-          <tr>
-              <td>Umur</td>
-              <td><input type="integer" name="umur" class="form-control"></td>
-            </tr>
-    
-            <tr>
-              <td>Jumlah Kelahiran</td>
-              <td><input type="integer" name="jum_kel" class="form-control"></td>
-            </tr>
-            
-            <tr>
-              <td>Kadar Glukosa</td>
-              <td><input type="integer" name="ka_glu" class="form-control"></td>
-            </tr>
-            
-            <tr>
-              <td>Tekanan Darah</td>
-              <td><input type="integer" name="tek_dar" class="form-control"></td>
-            </tr>
-            
-            <tr>
-              <td>Ketebalan Kulit</td>
-              <td><input type="integer" name="ket_kul" class="form-control"></td>
-            </tr>
-            
-            <tr>
-              <td>Kadar Insulin</td>
-              <td><input type="integer" name="insulin" class="form-control"></td>
-            </tr>
-    
-            <tr>
-              <td>Body Mass Index</td>
-              <td><input type="integer" name="bmi" class="form-control"></td>
-            </tr>
-    
-            <tr>
-              <td>Riwayat Keluarga</td>
-              <td><input type="integer" name="ri_kel" class="form-control"></td>
-            </tr>    
+    <div class="col-6">        
+        <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DIAGNOSA PENYAKIT DIABETES</center>
+        <hr style="width:50%; color: black">
+        
+    </div>
 
-      </table>
-      <input type="submit" class="btn btn-success" value="Diagnosa">
-    </form>
+    <div class="col-6">
+        <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DATA PASIEN</center>
+        <hr style="width:50%; color: black">
+    </div>
+
+  </div>
+
+  <form method="POST">
+
+    <!-- Columns are always 50% wide, on mobile and desktop -->
+    <div class="row">
+      <div class="col-6" style="line-height: 50px;">
+        <div class="box">
+          <table>
+            <tr>
+                <td>Umur</td>
+                <td><input type="integer" name="umur" class="form-control"></td>
+              </tr>
+      
+              <tr>
+                <td>Jumlah Kelahiran</td>
+                <td><input type="integer" name="jum_kel" class="form-control"></td>
+              </tr>
+              
+              <tr>
+                <td>Kadar Glukosa</td>
+                <td><input type="integer" name="ka_glu" class="form-control"></td>
+              </tr>
+              
+              <tr>
+                <td>Tekanan Darah</td>
+                <td><input type="integer" name="tek_dar" class="form-control"></td>
+              </tr>
+              
+              <tr>
+                <td>Ketebalan Kulit</td>
+                <td><input type="integer" name="ket_kul" class="form-control"></td>
+              </tr>
+              
+              <tr>
+                <td>Kadar Insulin</td>
+                <td><input type="integer" name="insulin" class="form-control"></td>
+              </tr>
+      
+              <tr>
+                <td>Body Mass Index</td>
+                <td><input type="integer" name="bmi" class="form-control"></td>
+              </tr>
+      
+              <tr>
+                <td>Riwayat Keluarga</td>
+                <td><input type="integer" name="ri_kel" class="form-control"></td>
+              </tr>    
+          </table>
+        </div>
+      </div>
+
+      <div class="col-6" style="line-height: 50px;">
+        
+        <div class="boxdata">
+          <table>
+            <tr>
+              <td>Nama</td>
+              <td><input type="text" name="name" class="form-control"></td>
+            </tr>
+
+            <tr>
+              <td>Tempat Lahir</td>
+              <td><input type="text" name="birthPlace" class="form-control"></td>
+            </tr>
+
+            <tr>
+              <td>Tanggal Lahir</td>
+              <td><input type="date" name="birthDate" class="form-control"></td>
+            </tr>
+
+            <tr>
+              <td>Nomor KTP</td>
+              <td><input type="integer" name="noKtp" class="form-control"></td>
+            </tr>
+
+            <tr>
+              <td>Alamat</td>
+              <td><input type="textarea" name="address" class="form-control"></td>
+            </tr>
+              
+            <tr>
+              <td>Jenis Kelamin</td>
+              <td>
+                  <input type="text" name="gender" placeholder="L/P" class="form-control">
+              </td>
+            </tr>
+        </table>
+      </div>
+
     </div>
   </div>
 
-  <div class="right-side">
-
-    <center style="font-size:25px; font-family: 'Century Gothic', sans-serif;">DATA PASIEN</center>
-    <hr style="width:50%; color: black">
-    <br>
-    <div class="input1">  
-      <!-- <form action="POST"> -->
-      <table>
-    
-        <tr>
-          <td>Nama</td>
-          <td><input type="text" name="name" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>Tempat Lahir</td>
-          <td><input type="text" name="birthPlace" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>Tanggal Lahir</td>
-          <td><input type="date" name="birthDate" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>Nomor KTP</td>
-          <td><input type="text" name="noKtp" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>ID Pasian</td>
-          <td><input type="text" name="idPasien" class="form-control"></td>
-        </tr>
-
-        <tr>
-          <td>Alamat</td>
-          <td><input type="textarea" name="address" class="form-control"></td>
-        </tr>
-          
-        <tr>
-          <td>Jenis Kelamin</td>
-          <td>
-            <div class="pl-3 mb-5 bg-white rounded border">
-                <input type="radio" name="gender" value="male"> Laki-laki<br>
-                <input type="radio" name="gender" value="female"> Perempuan<br>
-            </div>
-          </td>
-        </tr>
-      
-    </table>
-  <!-- </form> -->
+  <div class="row justify-content-center" style="margin-top: 10px; margin-bottom: 50px;">
+    <button type="submit" class="btn btn-success btn-lg shadow" style="width: 500px;">SUBMIT</button>
   </div>
-
-  <br>
-  <center><button type="button" class="btn btn-success btn-lg shadow" style="width: 500px;">SUBMIT</button></center>
-</div>
+    
+  </form>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
