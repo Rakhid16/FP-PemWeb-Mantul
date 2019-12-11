@@ -9,7 +9,6 @@ from numpy import expand_dims, argmax
 from keras.models import load_model
 from keras.preprocessing import image
 from keras import backend as K
-import pandas as pd
 
 app = Flask(__name__)
 
@@ -205,14 +204,17 @@ def diabetes_input():
             
     return render_template('inputan_diabetes.html')
 
-@app.route('/neurahealth/diabetes/data')
+@app.route('/neurahealth/diabetes/data', methods=['GET', 'POST'])
 def diabetes_data():
     if 'loggedin' in session:
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT name, birth_plc, birth_date, ktp, alamat, gender, result FROM neurahealth_patients WHERE byuser = %s and diseases = %s', [session['doctor_name'], "Diabetes"])
         rv = cursor.fetchall()
 
-        #data_ekspor = pd.DataFrame()
+        if request.form == 'POST':
+            data = [rv]
+            data = pd.DataFrame(data=data,
+            columns=['Nama', 'Tempat Lahir', 'Tanggal Lahir', 'No KTP', 'Alamat', 'Kelamin', 'Hasil Diagnosa'])
 
         return render_template('Data_Pasien_Diabetes.html', value=rv)
     
