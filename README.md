@@ -1,5 +1,4 @@
 <p align="center">
-  <h1>Laman Utama</h1>
   <img src="https://i.ibb.co/qskz5GX/Screenshot-2020-01-16-Neurahealth-Sistem-Diagnosa-Instan.png">
 </p>
 
