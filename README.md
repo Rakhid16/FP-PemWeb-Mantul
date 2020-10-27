@@ -2,10 +2,6 @@
   <img src="https://i.ibb.co/qskz5GX/Screenshot-2020-01-16-Neurahealth-Sistem-Diagnosa-Instan.png">
 </p>
 
-<p align="center">
-  <img src="https://i.imgur.com/uiStZB5.jpg">
-</p>
-
 Mulai dari sini :<br>
 1 <i>Clone</i> repositori ini<br>
 2 Eksekusi berkas <b>neurahealth_users.sql</b> dengan DBMS MySQL<br>
